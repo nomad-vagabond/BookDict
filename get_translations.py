@@ -106,30 +106,36 @@ def build_dictionary(dumpfile, dictfile, blocknum=9, sortwords='a', insertline=T
         random.shuffle(items)
 
     if insertline:
-        addchar = '\n'
+        addchar = '\n\n'
     else:
         addchar = ''
 
     if not blocknum:
         blocknum = len(items) + 1
 
+    bn = 1
     with open(dictfile, 'w') as worddict:
-        i = 0
-        j = 0
+        i = j = 0
         blockwords = []
         for line in items:
-            blockwords.append(line.split(' - ')[0])
-            worddict.write(line + addchar)
+            word_trans = line.split(' - ')
+            word = "**" + word_trans[0] + "**"
+            if len(blockwords) == 0:
+                worddict.write("## Block " + str(bn) + "\n\n")
+
+            blockwords.append(word)
+            worddict.write(word + ' - ' + word_trans[1] + addchar)
             if (i == blocknum) or (j == len(items)-1):
             # if j == 3:
-                worddict.write('\n')
+                worddict.write('---\n\n')
                 random.shuffle(blockwords)
                 for bword in blockwords:
                     worddict.write(bword + addchar)
-                worddict.write('\n\n')
+                worddict.write('---\n\n')
                 i = 0
                 blockwords = []
-            
+                bn += 1
+
             i += 1
             j += 1
 
@@ -156,7 +162,7 @@ if __name__ == '__main__':
         # print(len(words))
         translate(words, dumpfile, srclang='En', dstlang='Ru')
 
-    dictfile = './vocabulary/' + bookname + ".dict"
+    dictfile = './vocabulary/' + bookname + ".md"
     build_dictionary(dumpfile, dictfile, sortwords='r')
 
 

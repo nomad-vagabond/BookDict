@@ -3,7 +3,7 @@ import readbook as rb
 import get_translations as gt
 
 
-print("Enter path to book file. (Currently only 'epub' format is supported an source language must be English)")
+print("Enter path to book file. (Currently only 'epub' format is supported and the source language must be English)")
 book = input()
 srclang = 'En'
 print("Enter destination language. (Default value is 'Uk')")
